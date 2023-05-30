@@ -1,5 +1,6 @@
 from django_filters import rest_framework as filters
 from rest_framework import status, views
+from rest_framework.generics import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
@@ -51,5 +52,22 @@ class BookListAPIView(views.APIView):
             raise ValidationError(filterset.errors)
         # シリアライザオブジェクトを作成
         serializer = BookSerializer(instance=filterset.qs, many=True)
+        # レスポンスオブジェクトを作成して返す
+        return Response(serializer.data)
+    
+
+class BookRetrieveAPIView(views.APIView):
+    """
+    本モデルの取得（詳細）APIクラス
+    """
+    
+    def get(self, request, pk, *args, **kwargs):
+        """
+        本モデルの取得（詳細）APIに対応するハンドラメソッド
+        """
+        # モデルオブジェクトを取得
+        book = get_object_or_404(Book, pk=pk)
+        # シリアライザオブジェクトを作成
+        serializer = BookSerializer(instance=book)
         # レスポンスオブジェクトを作成して返す
         return Response(serializer.data)
