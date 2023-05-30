@@ -1,13 +1,23 @@
-from rest_framework import viewsets
+from rest_framework import status, views
+from rest_framework.response import Response
 
-from .models import Book
 from .serializers import BookSerializer
 
-# Create your views here.
 
-class BookViewSet(viewsets.ModelViewSet):
+class BookCreateAPIView(views.APIView):
     """
-    本モデルのCRUD用APIクラス
+    本モデルのの登録APIクラス
     """
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+    
+    def post(self, request, *args, **kwargs):
+        """
+        本モデルの登録APIに対応するハンドラメソッド
+        """
+        # シリアライザオブジェクトを作成
+        serializer = BookSerializer(data=request.data)
+        # バリデーションを実行
+        serializer.is_valid(raise_exception=True)
+        # モデルオブジェクトを登録
+        serializer.save()
+        # レスポンスオブジェクトを作成して返す
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
