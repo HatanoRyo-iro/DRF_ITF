@@ -106,4 +106,21 @@ class BookUpdateAPIView(views.APIView):
         # モデルオブジェクトを一部更新\
         serializer.save()
         # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data)
+        return Response(serializer.data)\
+        
+        
+class BookDestroyAPIView(views.APIView):
+    """
+    本モデルの削除APIクラス
+    """
+    
+    def delete(self, request, pk, *args, **kwargs):
+        """
+        本モデルの削除APIに対応するハンドラメソッド
+        """
+        # モデルオブジェクトを取得
+        book = get_object_or_404(Book, pk=pk)
+        # モデルオブジェクトを削除
+        book.delete()
+        # レスポンスオブジェクトを作成して返す
+        return Response(status=status.HTTP_204_NO_CONTENT)
