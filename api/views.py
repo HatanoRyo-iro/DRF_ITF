@@ -71,3 +71,39 @@ class BookRetrieveAPIView(views.APIView):
         serializer = BookSerializer(instance=book)
         # レスポンスオブジェクトを作成して返す
         return Response(serializer.data)
+    
+    
+class BookUpdateAPIView(views.APIView):
+    """
+    本モデルの更新・一部更新APIクラス
+    """
+    
+    def put(self, request, pk, *args, **kwargs):
+        """
+        本モデルの更新APIに対応するハンドラメソッド
+        """
+        # モデルオブジェクトを取得
+        book = get_object_or_404(Book, pk=pk)
+        # シリアライザオブジェクトを作成
+        serializer = BookSerializer(instance=book, data=request.data)
+        # バリデーションを実行
+        serializer.is_valid(raise_exception=True)
+        # モデルオブジェクトを更新
+        serializer.save()
+        # レスポンスオブジェクトを作成して返す
+        return Response(serializer.data)
+    
+    def patch(self, request, pk, *args, **kwargs):
+        """
+        本モデルの一部更新APIに対応するハンドラメソッド
+        """
+        # モデルオブジェクトを取得
+        book = get_object_or_404(Book, pk=pk)
+        # シリアライザオブジェクトを作成
+        serializer = BookSerializer(instance=book, data=request.data, partial=True)
+        # バリデーションを実行
+        serializer.is_valid(raise_exception=True)
+        # モデルオブジェクトを一部更新\
+        serializer.save()
+        # レスポンスオブジェクトを作成して返す
+        return Response(serializer.data)
