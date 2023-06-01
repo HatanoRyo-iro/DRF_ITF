@@ -39,18 +39,8 @@ class BookUpdateAPIView(generics.UpdateAPIView):
     serializer_class = BookSerializer
         
         
-class BookDestroyAPIView(views.APIView):
+class BookDestroyAPIView(generics.DestroyAPIView):
     """
     本モデルの削除APIクラス
     """
-    
-    def delete(self, request, pk, *args, **kwargs):
-        """
-        本モデルの削除APIに対応するハンドラメソッド
-        """
-        # モデルオブジェクトを取得
-        book = get_object_or_404(Book, pk=pk)
-        # モデルオブジェクトを削除
-        book.delete()
-        # レスポンスオブジェクトを作成して返す
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    queryset = Book.objects.all()
