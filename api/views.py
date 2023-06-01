@@ -27,17 +27,8 @@ class BookRetrieveAPIView(views.APIView):
     """
     本モデルの取得（詳細）APIクラス
     """
-    
-    def get(self, request, pk, *args, **kwargs):
-        """
-        本モデルの取得（詳細）APIに対応するハンドラメソッド
-        """
-        # モデルオブジェクトを取得
-        book = get_object_or_404(Book, pk=pk)
-        # シリアライザオブジェクトを作成
-        serializer = BookSerializer(instance=book)
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data)
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
     
     
 class BookUpdateAPIView(views.APIView):
