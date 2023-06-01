@@ -8,14 +8,6 @@ from .models import Book
 from .serializers import BookSerializer
 
 
-class BookFilter(filters.FilterSet):
-    """
-    本モデル用フィルタクラス
-    """
-    class Meta:
-        model = Book
-        fields = '__all__'
-
 class BookListCreateAPIView(generics.ListCreateAPIView):
     """
     本モデルの登録APIクラス
@@ -26,21 +18,10 @@ class BookListAPIView(views.APIView):
     """
     本モデルの取得（一覧）APIクラス
     """
-    
-    def get(self, request, *args, **kwargs):
-        """
-        本モデルの取得（一覧）APIに対応するハンドラメソッド
-        """
-        # モデルオブジェクトをクエリ文字列を使ってフィルタリングした結果を取得
-        filterset = BookFilter(request.query_params, queryset=Book.objects.all())
-        if not filterset.is_valid():
-            # クエリ文字列のバリデーションがNGの場合は400エラー
-            raise ValidationError(filterset.errors)
-        # シリアライザオブジェクトを作成
-        serializer = BookSerializer(instance=filterset.qs, many=True)
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data)
-    
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = '__all__'
 
 class BookRetrieveAPIView(views.APIView):
     """
