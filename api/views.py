@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from rest_framework import status, views
+from rest_framework import status, views, generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -16,25 +16,11 @@ class BookFilter(filters.FilterSet):
         model = Book
         fields = '__all__'
 
-
-class BookCreateAPIView(views.APIView):
+class BookListCreateAPIView(generics.ListCreateAPIView):
     """
-    本モデルのの登録APIクラス
+    本モデルの登録APIクラス
     """
-    
-    def post(self, request, *args, **kwargs):
-        """
-        本モデルの登録APIに対応するハンドラメソッド
-        """
-        # シリアライザオブジェクトを作成
-        serializer = BookSerializer(data=request.data)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを登録
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+    serializer_class = BookSerializer
 
 class BookListAPIView(views.APIView):
     """
