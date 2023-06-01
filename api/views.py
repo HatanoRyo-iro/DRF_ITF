@@ -23,7 +23,7 @@ class BookListAPIView(views.APIView):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_fields = '__all__'
 
-class BookRetrieveAPIView(views.APIView):
+class BookRetrieveAPIView(generics.RetrieveAPIView):
     """
     本モデルの取得（詳細）APIクラス
     """
@@ -31,40 +31,12 @@ class BookRetrieveAPIView(views.APIView):
     serializer_class = BookSerializer
     
     
-class BookUpdateAPIView(views.APIView):
+class BookUpdateAPIView(generics.UpdateAPIView):
     """
-    本モデルの更新・一部更新APIクラス
+    本モデル位の更新・一部更新APIクラス
     """
-    
-    def put(self, request, pk, *args, **kwargs):
-        """
-        本モデルの更新APIに対応するハンドラメソッド
-        """
-        # モデルオブジェクトを取得
-        book = get_object_or_404(Book, pk=pk)
-        # シリアライザオブジェクトを作成
-        serializer = BookSerializer(instance=book, data=request.data)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data)
-    
-    def patch(self, request, pk, *args, **kwargs):
-        """
-        本モデルの一部更新APIに対応するハンドラメソッド
-        """
-        # モデルオブジェクトを取得
-        book = get_object_or_404(Book, pk=pk)
-        # シリアライザオブジェクトを作成
-        serializer = BookSerializer(instance=book, data=request.data, partial=True)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを一部更新\
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data)\
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
         
         
 class BookDestroyAPIView(views.APIView):
