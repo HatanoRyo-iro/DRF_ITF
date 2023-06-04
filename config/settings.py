@@ -131,5 +131,5 @@ REST_FRAMEWORK ={
 
 DEFAULTS = {
     # Exception handling
-    'EXCEPTION_HANDLER' : 'rest_framework.views.exception_handler',
+    'EXCEPTION_HANDLER' : 'common.handlers.custom_exception_handler',
 }
