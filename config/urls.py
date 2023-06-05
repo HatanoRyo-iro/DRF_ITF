@@ -21,11 +21,9 @@ from rest_framework import routers
 
 from api import views
 
-router = routers.SimpleRouter()
-router.register(r"books", views.BookViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     # 本モデルの取得（一覧）・取得（詳細）・登録・更新・一部更新・削除エンドポイント
-    path('api/', include(router.urls)),
+    path('api/<version>/books/', views.BookListAPIView.as_view()),
 ]
