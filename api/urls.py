@@ -1,10 +1,11 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from api import views
 
-from api import views 
+router = routers.SimpleRouter()
+router.register('books', views.BookViewSet)
 
 urlpatterns = [
-    # 本モデルの取得（一覧）・登録エンドポイント
-    path('api/books/', views.BookListCreateAPIView.as_view()),
-    # 本モデルの取得（詳細）・更新・一部更新・削除エンドポイント
-    path('api/books/<pk>', views.BookRetrieveUpdateDestroyAPIView.as_view()),
+    # 全てのアクション（一覧・詳細・登録・更新・一部更新・削除）をまとめて追加
+    path('api/', include(router.urls))
 ]
