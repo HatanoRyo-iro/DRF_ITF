@@ -2,16 +2,12 @@ from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 
 from .models import Book
-from .serializers import BookSerializer, BookSerializerV2
+from .serializers import BookSerializer
 
 
 class BookListAPIView(generics.ListAPIView):
+    """
+    本モデルの一覧取得用APIクラス
+    """
     queryset = Book.objects.all()
-    
-    def get_serializer_class(self):
-        if self.request.version == 'v1':
-            return BookSerializer
-        elif self.request.version == 'v2':
-            return BookSerializerV2
-        else:
-            raise ValidationError('バージョンが異なるため利用できません.')
+    serializer_class = BookSerializer
