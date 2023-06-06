@@ -27,4 +27,3 @@ class BookSerializer(serializers.ModelSerializer):
                 }
             }
         }
-        
