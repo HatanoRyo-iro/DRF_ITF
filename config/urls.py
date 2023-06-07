@@ -27,6 +27,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # 本モデルの取得（一覧）・取得（詳細）・登録・更新・一部更新・削除エンドポイント
     path('api/<version>/books/', api_views.BookListAPIView.as_view()),
+    path('api/auth/', include('rest_framework.urls')),
     path('api/auth/login/', accounts_views.LoginView.as_view()),
     path('api/auth/logout/', accounts_views.LogoutView.as_view()),
 ]
