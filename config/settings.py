@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'rest_framework',
+    'rest_framework.authtoken',
     'api.apps.ApiConfig',
     'accounts.apps.AccountsConfig',
 ]
@@ -127,7 +128,10 @@ REST_FRAMEWORK ={
     'DEFAULT_THROTTLE_RATES' : {
         'anon' : '10/minute',
         'user' : '1000/hour',
-    }
+    },
+    'DEFAULT_AUTHENTICATION_CLASSES' : [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
 
 DEFAULTS = {
