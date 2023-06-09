@@ -27,7 +27,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # 本モデルの取得（一覧）・取得（詳細）・登録・更新・一部更新・削除エンドポイント
     path('api/<version>/books/', api_views.BookListAPIView.as_view()),
-    path('api/auth/', include('dj_rest_auth.urls')),
-    path('api/auth/login/', accounts_views.LoginView.as_view()),
-    path('api/auth/logout/', accounts_views.LogoutView.as_view()),
+    path('api-auth/', include('dj_rest_auth.urls')),
+    path('api-auth/jwt/', views.TokenObtainPairView.as_view()),   # トークン取得
+    path('api-auth/jwt/refresh/', views.TokenRefreshView.as_view()),   # トークン再取得
+    path('api-auth/login/', accounts_views.LoginView.as_view()),
+    path('api-auth/logout/', accounts_views.LogoutView.as_view()),
 ]
