@@ -27,7 +27,8 @@ from rest_framework_simplejwt import views as simplejwt_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     # 本モデルの取得（一覧）・取得（詳細）・登録・更新・一部更新・削除エンドポイント
-    path('api/<version>/books/', api_views.BookListAPIView.as_view()),
+    path('api/books/', api_views.BookCreateAPIView.as_view()),
+    path('api/books/<int:pk>/', api_views.BookUpdateAPIView.as_view()),
     path('api-auth/', include('dj_rest_auth.urls')),
     path('api-auth/jwt/', simplejwt_views.TokenObtainPairView.as_view()),   # トークン取得
     path('api-auth/jwt/refresh/', simplejwt_views.TokenRefreshView.as_view()),   # トークン再取得
