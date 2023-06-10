@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.utils.timezone import localtime
 from rest_framework.test import APITestCase
-# from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from ..models import Book
 
@@ -68,8 +68,9 @@ class TestBookUpdateAPIView(APITestCase):
     def test_update_success(self):
         """本モデルの更新APIへのPUTリクエスト（正常系）"""
         
-        # ログイン（Cookie認証の場合）
-        self.client.login(username='user', password='secret')
+        # ログイン（JWT認証の場合）
+        token = str(RefreshToken.for_user(self.user).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
         
         # APIリクエストを実行
         book = Book.objects.create(
