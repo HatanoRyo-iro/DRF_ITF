@@ -21,7 +21,7 @@ class TestBookCreateAPIView(APITestCase):
         response = self.client.post(self.TARGET_URL, params, format='json')
         
         # データベースの状態を検証
-        self.asserEqual(Book.objects.count(), 1)
+        self.assertEqual(Book.objects.count(), 1)
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 201)
         book = Book.objects.get()
@@ -52,7 +52,7 @@ class TestBookCreateAPIView(APITestCase):
 class TestBookUpdateAPIView(APITestCase):
     """BookUpdateAPIViewのテストクラス"""
     
-    TARGET_URL = '/api/books/{}/'
+    TARGET_URL_WITH_PK = '/api/books/{}/'
     
     @classmethod
     def setUpClass(cls):
