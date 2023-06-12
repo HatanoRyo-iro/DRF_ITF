@@ -36,7 +36,7 @@ class TestBookSerializer(TestCase):
         self.assertCountEqual(serializer.errors.keys(), ['title'])
         self.assertCountEqual(
             [str(x)for x in serializer.errors['title']],
-            ['この項目は空にできません。']
+            ['この項目は空にできません。'],
         )
         
     def test_output_data(self):
